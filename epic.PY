@@ -16,12 +16,12 @@ STATE_FILE = "free.txt"
 # ==========================================
 
 
-# 🇮🇳 Convert UTC → IST
+# �🇳 Convert UTC → CST
 def format_date_ist(date_str):
     try:
         utc_time = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
-        ist_time = utc_time.astimezone(timezone(timedelta(hours=5, minutes=30)))
-        return ist_time.strftime("%d %b %Y, %I:%M %p IST")
+        cst_time = utc_time.astimezone(timezone(timedelta(hours=8)))
+        return cst_time.strftime("%d %b %Y, %I:%M %p CST")
     except:
         return "N/A"
 
