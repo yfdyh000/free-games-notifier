@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: "0 */6 * * *"   # runs every 6 hours
   workflow_dispatch:          # allows manual trigger from Actions tab
+  push:
 
 permissions:
   contents: write
@@ -14,10 +15,10 @@ jobs:
 
     steps:
       - name: 📥 Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 🐍 Setup Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6.2.0
         with:
           python-version: "3.11"
 
