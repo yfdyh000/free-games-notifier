@@ -1,15 +1,13 @@
 import requests
-import smtplib
 import os
 from bs4 import BeautifulSoup
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 
 # ================= CONFIG =================
-SMTP_SERVER = "smtp.gmail.com"
-SMTP_PORT = 587
-EMAIL = os.getenv("EMAIL")
-PASSWORD = os.getenv("PASSWORD")
+EMAILJS_PUBLIC_KEY = os.getenv("EMAILJS_PUBLIC_KEY") or "i6pzig8RXk_SD79wy"
+EMAILJS_PRIVATE_KEY = os.getenv("EMAILJS_PRIVATE_KEY")
+EMAILJS_SERVICE_ID = os.getenv("EMAILJS_SERVICE_ID") or "service_b9euxut"
+EMAILJS_TEMPLATE_ID = os.getenv("EMAILJS_TEMPLATE_ID") or "template_pwaxym5"
+FROM_EMAIL = os.getenv("FROM_EMAIL") or os.getenv("EMAIL")
 TO_EMAIL = os.getenv("TO_EMAIL")
 STATE_FILE = "free-steam.txt"
 
@@ -168,17 +166,29 @@ def build_html(games):
 # EMAIL
 # -----------------------------
 def send_email(subject, html):
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = subject
-    msg["From"] = EMAIL
-    msg["To"] = TO_EMAIL
+    if not EMAILJS_TEMPLATE_ID:
+        raise ValueError("EMAILJS_TEMPLATE_ID is required for EmailJS REST API send endpoint")
 
-    msg.attach(MIMEText(html, "html"))
+    url = "https://api.emailjs.com/api/v1.0/email/send"
+    data = {
+        "service_id": EMAILJS_SERVICE_ID,
+        "template_id": EMAILJS_TEMPLATE_ID,
+        "user_id": EMAILJS_PUBLIC_KEY,
+        "accessToken": EMAILJS_PRIVATE_KEY,
+        "template_params": {
+            "from_email": FROM_EMAIL,
+            "to_email": TO_EMAIL,
+            "subject": subject,
+            "html": html
+        }
+    }
 
-    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-        server.starttls()
-        server.login(EMAIL, PASSWORD)
-        server.send_message(msg)
+    response = requests.post(url, json=data)
+    if response.status_code == 200:
+        print("Email sent successfully")
+    else:
+        print(f"Failed to send email: {response.status_code} {response.text}")
+        exit(-1)
 
 
 # -----------------------------

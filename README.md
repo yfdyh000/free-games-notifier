@@ -169,3 +169,13 @@ This project is open source and available under the [MIT License](LICENSE).
 ---
 
 <p align="center">Made with ❤️ and automated with 🤖 GitHub Actions</p>
+
+## Use emailjs without Gmail access
+* https://www.emailjs.com/
+
+* https://dashboard.emailjs.com/admin/templates/0pjcevb
+```
+{{subject}}
+{{{html}}}
+{{to_email}}
+```
