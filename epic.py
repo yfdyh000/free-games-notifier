@@ -9,7 +9,7 @@ EMAILJS_SERVICE_ID = os.getenv("EMAILJS_SERVICE_ID") or "service_b9euxut"
 EMAILJS_TEMPLATE_ID = os.getenv("EMAILJS_TEMPLATE_ID") or "template_pwaxym5"
 FROM_EMAIL = os.getenv("FROM_EMAIL") or os.getenv("EMAIL")
 TO_EMAIL = os.getenv("TO_EMAIL")
-API_URL = "https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=en-US"
+API_URL = "https://store-site-backend-static.ak.epicgames.com/freeGamesPromotions?locale=zh-CN"
 STATE_FILE = "free-epic.txt"
 # ==========================================
 
@@ -46,7 +46,7 @@ def fetch_games():
 
             # Link
             slug = game.get("productSlug") or game.get("urlSlug")
-            link = f"https://store.epicgames.com/en-US/p/{slug}"
+            link = f"https://store.epicgames.com/zh-CN/p/{slug}"
 
             promotions = game.get("promotions")
 
