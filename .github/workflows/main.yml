@@ -27,15 +27,14 @@ jobs:
       - name: 🛒 Run Epic Games notifier
         env:
           EMAIL: ${{ secrets.EMAIL }}
-          PASSWORD: ${{ secrets.PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
-        run: python epic.PY
+          EMAILJS_PRIVATE_KEY: ${{ secrets.EMAILJS_PRIVATE_KEY }}
+        run: python epic.py
 
       - name: 🎮 Run Steam notifier
         env:
           EMAIL: ${{ secrets.EMAIL }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          EMAILJS_PRIVATE_KEY: ${{ secrets.EMAILJS_PRIVATE_KEY }}
         run: python steam.py
 
       - name: 💾 Commit & push updated state files
