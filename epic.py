@@ -45,7 +45,7 @@ def fetch_games():
                     image = img["url"]
 
             # Link
-            slug = game.get("productSlug") or game.get("urlSlug")
+            slug = game.get("catalogNs")["mappings"][0]["pageSlug"] or game.get("productSlug") or game.get("urlSlug")
             link = f"https://store.epicgames.com/zh-CN/p/{slug}"
 
             promotions = game.get("promotions")
