@@ -206,6 +206,10 @@ if __name__ == "__main__":
         subject = "🔥 Steam Free Games Update"
         html = build_html(games)
 
+        if "No free games" in html:
+            print("⏸ No free games available. Email not sent.")
+            exit(0)
+
         send_email(subject, html)
         save_signature(sig)
 
