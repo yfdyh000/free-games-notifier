@@ -212,8 +212,12 @@ if __name__ == "__main__":
         current_titles = ", ".join([g["title"] for g in current_games]) or "None"
         upcoming_titles = ", ".join([g["title"] for g in upcoming_games]) or "TBA"
 
-        subject = f"🔥 Free Now: {current_titles} | Next: {upcoming_titles}"
+        subject = f"🔥 Epic Free Games: {current_titles} | Next: {upcoming_titles}"
         html = build_html(current_games, upcoming_games)
+
+        if "No current games" in html:
+            print("⏸ No free games available. Email not sent.")
+            exit(0)
 
         send_email(subject, html)
 

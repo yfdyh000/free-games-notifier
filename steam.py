@@ -203,7 +203,7 @@ if __name__ == "__main__":
     else:
         print("🚀 New update!")
 
-        subject = "🔥 Steam Free Games Update"
+        subject = "🔥 Steam Free Games"
         html = build_html(games)
 
         if "No free games" in html:
