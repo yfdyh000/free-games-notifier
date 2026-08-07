@@ -45,7 +45,7 @@ def get_free_to_claim():
                     "title": title.text.strip(),
                     "link": game.get("href"),
                     "image": image["src"] if image else "",
-                    "time": "⏳ Limited Time Offer"
+                    "time": "⏳ 限时体验"
                 })
 
     return games
@@ -75,7 +75,7 @@ def get_free_weekend():
                         "title": item.get("name"),
                         "link": item.get("url"),
                         "image": item.get("header_image", ""),
-                        "time": "⏳ Ends Soon (Free Weekend)"
+                        "time": "⏳ 限时畅玩一周"
                     })
 
     return games
@@ -116,6 +116,7 @@ def build_html(games):
 
     for g in games:
         color = "#22c55e" if g["type"] == "Free to Keep" else "#3b82f6"
+        type_label = "领取即可永久入库" if g["type"] == "Free to Keep" else "限时畅玩一周"
 
         cards += f"""
         <div style="background:#1e293b;border-radius:15px;padding:20px;margin-bottom:25px;">
@@ -125,7 +126,7 @@ def build_html(games):
             <img src="{g['image']}" style="width:100%;border-radius:12px;">
 
             <p style="text-align:center;color:#cbd5f5;margin-top:10px;">
-                🎯 {g['type']}<br>
+                🎯 {type_label}<br>
                 {g['time']}
             </p>
 
@@ -134,7 +135,7 @@ def build_html(games):
                    style="display:inline-block;background:{color};
                    color:white;padding:12px 25px;border-radius:8px;
                    text-decoration:none;font-weight:bold;">
-                    🎮 Open in Steam
+                    🎮 在 Steam 中打开
                 </a>
             </div>
 
@@ -146,10 +147,10 @@ def build_html(games):
     <body style="background:#020617;font-family:Arial;padding:20px;">
         
         <h1 style="color:#22c55e;text-align:center;">
-            🎮 Steam Free Games
+            🎮 Steam 免费游戏
         </h1>
 
-        {cards if cards else "<p style='color:white;text-align:center;'>No free games</p>"}
+        {cards if cards else "<p style='color:white;text-align:center;'>暂无免费游戏</p>"}
 
         <p style="color:gray;text-align:center;margin-top:40px;">
             Auto Steam Notifier ⚡
@@ -203,10 +204,10 @@ if __name__ == "__main__":
     else:
         print("🚀 New update!")
 
-        subject = "🔥 Steam Free Games"
+        subject = "🔥 Steam 免费游戏"
         html = build_html(games)
 
-        if "No free games" in html:
+        if "暂无免费游戏" in html:
             print("⏸ No free games available. Email not sent.")
             exit(0)
 

@@ -19,7 +19,7 @@ def format_date_ist(date_str):
     try:
         utc_time = datetime.fromisoformat(date_str.replace("Z", "+00:00"))
         cst_time = utc_time.astimezone(timezone(timedelta(hours=8)))
-        return cst_time.strftime("%d %b %Y, %I:%M %p CST")
+        return cst_time.strftime("%Y年%m月%d日 %H:%M（北京时间）")
     except:
         return "N/A"
 
@@ -117,15 +117,15 @@ def build_html(current_games, upcoming_games):
                 <img src="{g['image']}" style="width:100%;border-radius:12px;">
                 
                 <p style="color:#cbd5f5;text-align:center;margin-top:10px;">
-                    📅 <b>Start:</b> {g['start']}<br>
-                    ⏳ <b>Ends:</b> {g['end']}
+                    📅 <b>开始：</b> {g['start']}<br>
+                    ⏳ <b>结束：</b> {g['end']}
                 </p>
 
                 <div style="text-align:center;margin-top:15px;">
                     <a href="{g['link']}" 
                        style="display:inline-block;background:#22c55e;color:white;
                        padding:12px 25px;border-radius:8px;text-decoration:none;font-weight:bold;">
-                        🎮 Claim Now
+                        🎮 立即领取
                     </a>
                 </div>
             </div>
@@ -142,8 +142,8 @@ def build_html(current_games, upcoming_games):
                 <img src="{g['image']}" style="width:100%;border-radius:12px;">
                 
                 <p style="color:#cbd5f5;text-align:center;margin-top:10px;">
-                    📅 <b>Starts:</b> {g['start']}<br>
-                    ⏳ <b>Ends:</b> {g['end']}
+                    📅 <b>开始：</b> {g['start']}<br>
+                    ⏳ <b>结束：</b> {g['end']}
                 </p>
             </div>
             """
@@ -153,16 +153,16 @@ def build_html(current_games, upcoming_games):
     <html>
     <body style="background:#020617;font-family:Arial;padding:20px;">
         
-        <h1 style="color:#22c55e;text-align:center;">🎮 Free Games Right Now</h1>
-        {current_cards(current_games) if current_games else "<p style='color:white;text-align:center;'>No current games</p>"}
+        <h1 style="color:#22c55e;text-align:center;">🎮 当前免费游戏</h1>
+        {current_cards(current_games) if current_games else "<p style='color:white;text-align:center;'>当前没有免费游戏</p>"}
 
         <hr style="margin:40px 0;border-color:#334155;">
 
-        <h1 style="color:#facc15;text-align:center;">⏳ Upcoming Free Games</h1>
-        {upcoming_cards(upcoming_games) if upcoming_games else "<p style='color:white;text-align:center;'>No upcoming games revealed</p>"}
+        <h1 style="color:#facc15;text-align:center;">⏳ 即将上线的免费游戏</h1>
+        {upcoming_cards(upcoming_games) if upcoming_games else "<p style='color:white;text-align:center;'>即将上线的免费游戏暂未公布</p>"}
 
         <p style="color:gray;text-align:center;margin-top:40px;">
-            Auto Epic Games Notifier 🇮🇳
+            Epic 游戏自动通知 ⚡
         </p>
     </body>
     </html>
@@ -209,13 +209,13 @@ if __name__ == "__main__":
     else:
         print("🚀 New update detected! Sending email...")
 
-        current_titles = ", ".join([g["title"] for g in current_games]) or "None"
-        upcoming_titles = ", ".join([g["title"] for g in upcoming_games]) or "TBA"
+        current_titles = ", ".join([g["title"] for g in current_games]) or "无"
+        upcoming_titles = ", ".join([g["title"] for g in upcoming_games]) or "待公布"
 
-        subject = f"🔥 Epic Free Games: {current_titles} | Next: {upcoming_titles}"
+        subject = f"🔥 Epic 免费游戏：{current_titles} | 接下来：{upcoming_titles}"
         html = build_html(current_games, upcoming_games)
 
-        if "No current games" in html:
+        if "当前没有免费游戏" in html:
             print("⏸ No free games available. Email not sent.")
             exit(0)
 
